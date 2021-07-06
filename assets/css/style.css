@@ -1,6 +1,40 @@
+/* Heading */
+
 h1 {
   text-align: center;
   margin-top: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+/* left search  */
+
+#search {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+#enter-city {
+  height: 37px;
+}
+
+.input-text {
+  width: 30px;
+}
+
+.search-btn {
+  vertical-align: bottom;
+}
+
+h4 {
+  margin-top: 20px;
+}
+
+.recent-btn {
+  display: block;
+  margin: 15px 0;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
 }

@@ -23,15 +23,19 @@
     </nav>
     <main>
       <section id="search">
-        <!-- <h2>Search for a City:</h2> -->
+        <h2>Search for a City:</h2>
         <form>
-          <label for="city">Search for a City:</label>
-          <br />
-          <input type="text" id="enter-city" name="city" autocomplete="off" />
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-search"></i>
-          </button>
+          <!-- <label for="city">Search for a City:</label>
+          <br /> -->
+          <div class="form-group has-feedback">
+            <input type="text" id="enter-city" name="city" autocomplete="off" />
+            <button type="submit" class="btn btn-success search-btn">
+              <i class="fas fa-search search-icon"></i>
+            </button>
+          </div>
         </form>
+        <h4>Recent Searches</h4>
+        <div id="history-container"></div>
       </section>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
