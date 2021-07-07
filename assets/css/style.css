@@ -7,9 +7,16 @@ h1 {
   padding-bottom: 10px;
 }
 
+/* main */
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /* left search  */
 
 #search {
+  min-width: 20vw;
   margin-left: 20px;
   margin-top: 20px;
 }
@@ -37,4 +44,24 @@ h4 {
   height: 40px;
   border-radius: 10px;
   font-size: 20px;
+}
+
+/* Current City */
+
+#city-temp {
+  border: 5px solid black;
+  margin-top: 50px;
+  margin-left: 30px;
+  min-width: 70vw;
+  min-height: 350px;
+}
+
+#city-temp > h3,
+#city-temp > p {
+  padding: 15px 0px 0px 15px;
+}
+
+#display-forecast {
+  margin-top: 50px;
+  margin-left: 30px;
 }

@@ -8,38 +8,78 @@ $(document).ready(function () {
 
     const searchCity = (e) => {
         e.preventDefault();
-        let currentCity = $("#enter-city").val();
+        let currentCity = $("#enter-city").val().trim();
+        currentCity = currentCity.replace(/^.{1}/g, currentCity[0].toUpperCase());
         console.log(currentCity)
         $("#enter-city").val("");
-        recentSearch(currentCity);
-        // fetchCity(currentCity)
+
+
+        fetchCity(currentCity)
     }
 
-    // const fetchCity = (city) => {
-    //     let weatherURL = `${url +city}&appid=${APIkey}`
-    //     fetch(weatherURL)
-    //         .then(res => res.json())
-    //         .then(data => console.log(data))
-    // }
+    const fetchCity = (city) => {
+        let weatherURL = `${url + city}&appid=${APIkey}`
+        fetch(weatherURL)
+            .then(res => {
+                if (!res.ok) throw res;
+                return res.json()
+            })
+            .then(data => {
+                displayTemp(city);
+                recentSearch(city);
+                console.log(data)
+            })
+            .catch(err => {
+                console.log("error")
+                console.log(err)
+                noCity(city);
+            })
+    }
 
     const recentSearch = (search) => {
-        let newButton = $('<button/>',
+        let newButton = $(`<button/>`,
             {
                 text: search,
                 "class": "recent-btn"
-            })
-        $("#history-container").append(newButton);
+            }).appendTo("#history-container")
         citiesArray.push(search)
         localStorage.setItem("savedCities", citiesArray)
     }
 
     const loadSearch = () => {
         let citiesToLoad = localStorage.getItem("savedCities");
-        let citiesToLoadArray = citiesToLoad.split(",")
-        console.log(citiesToLoadArray)
+        if (citiesToLoad) {
+            let citiesToLoadArray = citiesToLoad.split(",")
+            citiesToLoadArray.forEach(city => recentSearch(city))
 
-        console.log(typeof citiesToLoadArray)
-        citiesToLoadArray.forEach(city => recentSearch(city))
+        }
+    }
+
+    const displayTemp = (city) => {
+        $("#current-city").html(`
+        <div id="city-temp">
+            <h3>${city}</h3>
+            <p>Temperature:</p>
+            <p>Humidity:</p>
+            <p>Wind Speed:</p>
+            <p>UV Index:</p>
+        </div>
+        <div id=display-forecast>
+            <h4>5-Day Forecast:</h4>
+        </div
+        `)
+
+
+    }
+
+    const noCity = (city) => {
+        $("#current-city").html(`
+        <div id="city-temp">
+            <h3>Sorry, ${city} is not found</h3>
+
+        </div>
+        `
+        )
     }
     loadSearch();
     // pressing search icon or on enter.
