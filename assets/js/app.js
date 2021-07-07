@@ -25,7 +25,7 @@ $(document).ready(function () {
                 return res.json()
             })
             .then(data => {
-                displayTemp(city);
+                getCoord(data)
                 recentSearch(city);
                 console.log(data)
             })
@@ -55,14 +55,43 @@ $(document).ready(function () {
         }
     }
 
-    const displayTemp = (city) => {
+    const getCoord = (data) => {
+        let lat = data.coord.lat;
+        let lon = data.coord.lon;
+        let cityName = data.name;
+        const coordCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${APIkey}`
+        fetch(coordCall)
+            .then(res => {
+                if (!res.ok) throw res;
+                return res.json()
+            })
+            .then(data => {
+                data.name = cityName;
+                console.log(data)
+                displayTemp(data);
+
+            })
+            .catch(err => {
+                console.log(err)
+
+            })
+
+    }
+
+    const displayTemp = (data) => {
+        let cityName = data.name;
+        let tempF = convertToF(data.current.temp);
+        let humidity = data.current.humidity;
+        let wind = data.current.wind_speed;
+        let uvi = data.current.uvi;
+        // let kelvinTemp = 
         $("#current-city").html(`
         <div id="city-temp">
-            <h3>${city}</h3>
-            <p>Temperature:</p>
-            <p>Humidity:</p>
-            <p>Wind Speed:</p>
-            <p>UV Index:</p>
+            <h3>${cityName}</h3>
+            <p>Temperature: ${tempF}&#8457</p>
+            <p>Humidity: ${humidity}</p>
+            <p>Wind Speed: ${wind}</p>
+            <p>UV Index: ${uvi}</p>
         </div>
         <div id=display-forecast>
             <h4>5-Day Forecast:</h4>
@@ -80,6 +109,10 @@ $(document).ready(function () {
         </div>
         `
         )
+    }
+
+    const convertToF = (temp) => {
+        return Math.floor((temp - 273.15) * 9 / 5 + 32)
     }
     loadSearch();
     // pressing search icon or on enter.
