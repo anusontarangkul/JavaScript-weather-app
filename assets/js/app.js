@@ -80,10 +80,24 @@ $(document).ready(function () {
 
     const displayTemp = (data) => {
         let cityName = data.name;
+
         let tempF = convertToF(data.current.temp);
         let humidity = data.current.humidity;
         let wind = data.current.wind_speed;
         let uvi = data.current.uvi;
+        let forecast = data.daily;
+        console.log("forecast")
+        console.log(forecast)
+        const getForecast = (dailyArray) => {
+            let forecast = ""
+            for (let i = 0; i <= 4; i++) {
+
+                let futureTempF = convertToF(dailyArray[i].temp.day)
+                forecast += `<p>${futureTempF}</p>`
+            }
+            return forecast;
+        }
+
         // let kelvinTemp = 
         $("#current-city").html(`
         <div id="city-temp">
@@ -95,6 +109,7 @@ $(document).ready(function () {
         </div>
         <div id=display-forecast>
             <h4>5-Day Forecast:</h4>
+            ${getForecast(forecast)}
         </div
         `)
 
