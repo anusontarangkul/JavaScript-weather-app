@@ -117,7 +117,7 @@ $(document).ready(function () {
             <p>Temperature: ${tempF}&#8457</p>
             <p>Humidity: ${humidity}%</p>
             <p>Wind Speed: ${wind}mph</p>
-            <p>UV Index: ${uvi}</p>
+            <p >UV Index: <span class="${checkUV(uvi)}">${uvi}</span></p>
         </div>
         <div id=display-forecast>
             <h4>5-Day Forecast:</h4>
@@ -142,6 +142,16 @@ $(document).ready(function () {
 
     const convertToF = (temp) => {
         return Math.floor((temp - 273.15) * 9 / 5 + 32)
+    }
+
+    const checkUV = (uv) => {
+        if (uv <= 2) {
+            return "uv-low"
+        } else if (uv >= 6) {
+            return "uv-high"
+        } else {
+            return "uv-mod"
+        }
     }
     loadSearch();
     // pressing search icon or on enter.

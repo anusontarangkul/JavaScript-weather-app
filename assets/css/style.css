@@ -66,6 +66,19 @@ h4 {
   margin-left: 30px;
 }
 
+.uv-low {
+  background-color: green;
+  padding: 5px;
+}
+.uv-mod {
+  background-color: yellow;
+  padding: 5px;
+}
+.uv-high {
+  background-color: red;
+  padding: 5px;
+}
+
 /* forecast */
 #forecast-container {
   display: flex;
