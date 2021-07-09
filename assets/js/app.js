@@ -5,14 +5,11 @@ let citiesArray = [];
 
 $(document).ready(function () {
 
-
     const searchCity = (e) => {
         e.preventDefault();
         let currentCity = $("#enter-city").val().trim();
         currentCity = currentCity.replace(/^.{1}/g, currentCity[0].toUpperCase());
         $("#enter-city").val("");
-        // recentSearch(city);
-
         fetchCity(currentCity)
     }
 
@@ -34,28 +31,23 @@ $(document).ready(function () {
     }
 
     const recentSearch = (search) => {
+        citiesArray.push(search)
         let newButton = $(`<button/>`,
             {
                 text: search,
                 "class": "recent-btn",
                 "id": `recent-${search}`
             }).appendTo("#history-container")
+        newButton.click(function () {
+            let recentCity = $(this).text()
+            $(this).remove();
+            citiesArray = citiesArray.filter(city => city !== recentCity)
+            fetchCity(recentCity);
+        })
 
-        // $(`#recent-${search}`).click(function () {
-        //     fetchCity(search)
-        //     $(this).remove()
-        // })
-        // $(".recent-btn").click(function () {
-        //     console.log($(this))
-        //     let recentCity = $(this).text()
-        //     console.log(recentCity)
 
-        // })
-        citiesArray.push(search)
         localStorage.setItem("savedCities", citiesArray)
     }
-
-
 
     const loadSearch = () => {
         let citiesToLoad = localStorage.getItem("savedCities");
@@ -64,12 +56,8 @@ $(document).ready(function () {
             citiesToLoadArray.forEach(city => recentSearch(city))
 
         }
-        $(".recent-btn").click(function () {
-            let recentCity = $(this).text()
-            fetchCity(recentCity);
-            $(this).remove();
-        })
     }
+
 
     const getCoord = (data) => {
         let lat = data.coord.lat;
@@ -124,7 +112,6 @@ $(document).ready(function () {
             return forecast;
         }
 
-        // let kelvinTemp = 
         $("#current-city").html(`
         <div id="city-temp">
             <h3>${cityName} (${currentDate})  <img src="${icon}" alt=""/></h3>
@@ -140,8 +127,6 @@ $(document).ready(function () {
             </div>
         </div
         `)
-
-
     }
 
     const noCity = (city) => {
@@ -167,10 +152,9 @@ $(document).ready(function () {
             return "uv-mod"
         }
     }
+
     loadSearch();
-    // pressing search icon or on enter.
     $(".fa-search").on("click", searchCity)
     $("#search").submit(searchCity)
-
 
 });
