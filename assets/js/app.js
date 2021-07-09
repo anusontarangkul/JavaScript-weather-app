@@ -37,16 +37,25 @@ $(document).ready(function () {
         let newButton = $(`<button/>`,
             {
                 text: search,
-                "class": "recent-btn"
+                "class": "recent-btn",
+                "id": `recent-${search}`
             }).appendTo("#history-container")
+
+        // $(`#recent-${search}`).click(function () {
+        //     fetchCity(search)
+        //     $(this).remove()
+        // })
         // $(".recent-btn").click(function () {
+        //     console.log($(this))
         //     let recentCity = $(this).text()
-        //     fetchCity(recentCity)
+        //     console.log(recentCity)
 
         // })
         citiesArray.push(search)
         localStorage.setItem("savedCities", citiesArray)
     }
+
+
 
     const loadSearch = () => {
         let citiesToLoad = localStorage.getItem("savedCities");
@@ -55,6 +64,11 @@ $(document).ready(function () {
             citiesToLoadArray.forEach(city => recentSearch(city))
 
         }
+        $(".recent-btn").click(function () {
+            let recentCity = $(this).text()
+            fetchCity(recentCity);
+            $(this).remove();
+        })
     }
 
     const getCoord = (data) => {
