@@ -1,5 +1,9 @@
 /* Heading */
 
+nav {
+  margin-top: -20px;
+}
+
 h1 {
   text-align: center;
   margin-top: 15px;
@@ -80,6 +84,7 @@ h4 {
 }
 
 /* forecast */
+
 #forecast-container {
   display: flex;
 }

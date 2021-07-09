@@ -5,6 +5,7 @@ let citiesArray = [];
 
 $(document).ready(function () {
 
+    // Search city
     const searchCity = (e) => {
         e.preventDefault();
         let currentCity = $("#enter-city").val().trim();
@@ -13,6 +14,7 @@ $(document).ready(function () {
         fetchCity(currentCity)
     }
 
+    // Makes API call to get coordinates
     const fetchCity = (city) => {
         let weatherURL = `${url + city}&appid=${APIkey}`
         fetch(weatherURL)
@@ -30,13 +32,13 @@ $(document).ready(function () {
             })
     }
 
+    // Creating recent search buttons, add local storage, click search function
     const recentSearch = (search) => {
         citiesArray.push(search)
         let newButton = $(`<button/>`,
             {
                 text: search,
-                "class": "recent-btn",
-                "id": `recent-${search}`
+                "class": "recent-btn"
             }).appendTo("#history-container")
         newButton.click(function () {
             let recentCity = $(this).text()
@@ -45,10 +47,10 @@ $(document).ready(function () {
             fetchCity(recentCity);
         })
 
-
         localStorage.setItem("savedCities", citiesArray)
     }
 
+    // Loading saved Cities on open
     const loadSearch = () => {
         let citiesToLoad = localStorage.getItem("savedCities");
         if (citiesToLoad) {
@@ -58,7 +60,7 @@ $(document).ready(function () {
         }
     }
 
-
+    // Second API call using coordinates because additional info needed.
     const getCoord = (data) => {
         let lat = data.coord.lat;
         let lon = data.coord.lon;
@@ -71,17 +73,15 @@ $(document).ready(function () {
             })
             .then(data => {
                 data.name = cityName;
-                console.log(data)
                 displayTemp(data);
 
             })
             .catch(err => {
                 console.log(err)
-
             })
-
     }
 
+    // Dynamically creating div to display weather using API data
     const displayTemp = (data) => {
         let cityName = data.name;
         let currentDate = moment().format("MM/DD/YYYY");
@@ -129,6 +129,7 @@ $(document).ready(function () {
         `)
     }
 
+    // Error handling if city doesn't exist
     const noCity = (city) => {
         $("#current-city").html(`
         <div id="city-temp">
@@ -139,10 +140,12 @@ $(document).ready(function () {
         )
     }
 
+    // Convert Kelvin to Farenheit
     const convertToF = (temp) => {
         return Math.floor((temp - 273.15) * 9 / 5 + 32)
     }
 
+    // Color coding uv
     const checkUV = (uv) => {
         if (uv <= 2) {
             return "uv-low"
